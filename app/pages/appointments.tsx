@@ -24,6 +24,7 @@ const AppointmentsPage = () => {
   const router = useRouter();
 
   const handleDateSelect = async (day: { dateString: string }) => {
+    console.log('Selected date:', day.dateString); // Add this line for debugging
     setSelectedDate(day.dateString);
     try {
       const appointmentsRef = collection(firestore, 'Appointments_6307189765234081');
