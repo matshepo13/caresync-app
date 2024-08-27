@@ -6,19 +6,21 @@ import { useRouter } from 'expo-router';
 import { checkIdInFirestore } from '@/app/(authenticated)/userService';
 
 export default function IdEntryScreen() {
-  const [idNumber, setIdNumber] = useState('');
+  const [medicalRecordNumber, setMedicalRecordNumber] = useState('');
   const router = useRouter();
 
   const handleSubmit = async () => {
     try {
-      const isValidId = await checkIdInFirestore(idNumber);
+      console.log('Submitting Medical Record Number:', medicalRecordNumber); // Debugging statement
+      const isValidId = await checkIdInFirestore(medicalRecordNumber, 'DoctorsList');
+      console.log('Is valid ID:', isValidId); // Debugging statement
       if (isValidId) {
         router.push({
           pathname: '/(authenticated)/user-details/[id]',
-          params: { id: idNumber }
+          params: { id: medicalRecordNumber }
         });
       } else {
-        Alert.alert('Error', 'Invalid ID number. Please try again.');
+        Alert.alert('Error', 'Invalid Medical Record Number. Please try again.');
       }
     } catch (error) {
       console.error('Error checking ID:', error);
@@ -28,14 +30,14 @@ export default function IdEntryScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Enter Your ID Number</Text>
+      <Text style={styles.title}>Enter Medical Record Number</Text>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          placeholder="ID Number"
+          placeholder="Medical Record Number"
           placeholderTextColor="rgba(255,255,255,0.7)"
-          value={idNumber}
-          onChangeText={setIdNumber}
+          value={medicalRecordNumber}
+          onChangeText={setMedicalRecordNumber}
           keyboardType="numeric"
         />
       </View>

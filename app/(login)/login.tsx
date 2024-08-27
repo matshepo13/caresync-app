@@ -70,7 +70,7 @@ export default function LoginScreen() {
       <TouchableOpacity style={styles.forgotButton}>
         <Text style={styles.forgotText}>Forgot</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.joinButton}>
+      <TouchableOpacity style={styles.joinButton} onPress={() => router.push('/(login)/signup')}>
         <Text style={styles.joinText}>Join Us !</Text>
       </TouchableOpacity>
       {showSuccessPopup && <SuccessPopup message="Login Successful" />}

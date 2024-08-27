@@ -11,6 +11,7 @@ import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firesto
 import AppBar from '@/components/Appbar';
 import Navbar from '@/components/Navbar';
 import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 export default function UserDetailsScreen() {
   const { id } = useLocalSearchParams();
@@ -115,22 +116,22 @@ export default function UserDetailsScreen() {
               style={styles.profileImage}
             />
             <View style={styles.greetingTextContainer}>
-            <Text style={{...styles.greeting, fontSize: 14}}>Good Morning, {userDetails.firstName || 'User'}!</Text>
+            <Text style={{...styles.greeting, fontSize: 14}}>Good Morning, Dr. {userDetails.surname || 'User'}!</Text>
               <Text style={styles.subGreeting}>You have 2 upcoming appointments and 1 new health alert.</Text>
             </View>
           </View>
         </View>
 
         <View style={styles.sectionContainer}>
-          <Text style={{...styles.sectionTitle, fontSize: 15}}>Medical History</Text>
+          <Text style={{...styles.sectionTitle, fontSize: 15}}>Profession</Text>
           <View style={styles.conditionsContainer}>
-            {userDetails.medicalHistory ? (
+            {userDetails.profession ? (
               <View style={styles.conditionItem}>
-                <Ionicons name="heart-outline" size={24} color="#FF5733" />
-                <Text style={styles.conditionText}>{userDetails.medicalHistory}</Text>
+                <FontAwesome name="stethoscope" size={24} color="#FF5733" />
+                <Text style={styles.conditionText}>{userDetails.profession}</Text>
               </View>
             ) : (
-              <Text>No medical history available</Text>
+              <Text>No profession available</Text>
             )}
           </View>
         </View>
