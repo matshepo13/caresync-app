@@ -8,6 +8,7 @@ import { firestore } from '@/services/firebase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import SuccessPopup from '@/components/SuccessPopup';
 import Navbar from '@/components/Navbar';
+import { useLocalSearchParams } from 'expo-router';
 
 interface AppointmentDetails {
   appointmentDateTime: string;
@@ -17,6 +18,7 @@ interface AppointmentDetails {
 }
 
 const AppointmentsPage = () => {
+  const { id } = useLocalSearchParams();
   const [selectedDate, setSelectedDate] = useState('');
   const [appointmentDetails, setAppointmentDetails] = useState<AppointmentDetails[]>([]); // Initialize as an empty array
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
@@ -27,7 +29,7 @@ const AppointmentsPage = () => {
     console.log('Selected date:', day.dateString); // Add this line for debugging
     setSelectedDate(day.dateString);
     try {
-      const appointmentsRef = collection(firestore, 'Appointments_6307189765234081');
+      const appointmentsRef = collection(firestore, 'Appointments_123456789');
       const q = query(
         appointmentsRef,
         where('appointmentDateTime', '>=', `${day.dateString}T00:00`),
@@ -56,7 +58,7 @@ const AppointmentsPage = () => {
 
   return (
     <View style={styles.container}>
-      <Navbar />
+      <Navbar userId={id as string} />
       <Text style={styles.title}>Appointments</Text>
       <Calendar
         current={new Date().toISOString().split('T')[0]}

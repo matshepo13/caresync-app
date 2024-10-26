@@ -6,7 +6,7 @@ import { Href } from 'expo-router';
 import { styles } from '@/assets/fonts/stylings/mainstyles';
 import QRCodeModal from './QRCodeModal'; // Ensure this import is present
 
-const Navbar = () => {
+const Navbar = ({ userId }: { userId: string }) => {
   const [qrModalVisible, setQrModalVisible] = useState(false);
   const router = useRouter();
 
@@ -15,7 +15,7 @@ const Navbar = () => {
       <TouchableOpacity style={styles.navItem} onPress={() => router.push('/(authenticated)/home' as Href<'/(authenticated)/home'>)}>
         <Ionicons name="home-outline" size={24} color="black" />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.navItem} onPress={() => router.push('/pages/appointments' as Href<'/pages/appointments'>)}>
+      <TouchableOpacity style={styles.navItem} onPress={() => router.push({ pathname: '/pages/appointments', params: { id: userId } } as Href<'/pages/appointments'>)}>
         <Ionicons name="calendar-outline" size={24} color="black" />
       </TouchableOpacity>
       <TouchableOpacity style={styles.navItem}>

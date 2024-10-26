@@ -6,18 +6,25 @@ import { Platform } from 'react-native';
 export function ExternalLink(
   props: Omit<React.ComponentProps<typeof Link>, 'href'> & { href: string }
 ) {
+  // Add type checking for href
+  if (typeof props.href !== 'string') {
+    console.warn('ExternalLink: href prop must be a string');
+    return null;
+  }
+
   return (
     <Link
       target="_blank"
       {...props}
-      // @ts-expect-error: External URLs are not typed.
       href={props.href}
-      onPress={(e) => {
+      onPress={async (e) => {
         if (Platform.OS !== 'web') {
-          // Prevent the default behavior of linking to the default browser on native.
           e.preventDefault();
-          // Open the link in an in-app browser.
-          WebBrowser.openBrowserAsync(props.href as string);
+          try {
+            await WebBrowser.openBrowserAsync(props.href);
+          } catch (error) {
+            console.error('Failed to open external link:', error);
+          }
         }
       }}
     />
