@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, ScrollView, Image, ActivityIndicator, TouchableOpacity, Text } from 'react-native';
 import { styles } from '@/assets/fonts/stylings/mainstyles';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { getUserDetails } from '@/app/(authenticated)/userService';
-
+import { useRouter } from 'expo-router';
+import CareSyncAIChat from '@/app/CareSyncAIChat';
 import MedicalRecordsModal from '@/components/MedicalRecordsModal';
 import { firestore } from '@/services/firebase';
 import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
@@ -12,6 +13,15 @@ import AppBar from '@/components/Appbar';
 import Navbar from '@/components/Navbar';
 import { Ionicons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
+// import VoiceCallScreen from '@/components/VoiceCallScreen';
+
+// Add this new component definition
+const MedicalServiceItem = ({ title, imagePath, onPress }: { title: string; imagePath: any; onPress?: () => void }) => (
+  <TouchableOpacity style={styles.medicalRecordItem} onPress={onPress}>
+    <Image source={imagePath} style={styles.medicalRecordImage} />
+    <Text style={styles.medicalRecordTitle}>{title}</Text>
+  </TouchableOpacity>
+);
 
 export default function UserDetailsScreen() {
   const { id } = useLocalSearchParams();
@@ -73,7 +83,7 @@ export default function UserDetailsScreen() {
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#0000ff" />
         </View>
-        <Navbar />
+        <Navbar userId={''} />
       </View>
     );
   }
@@ -83,7 +93,7 @@ export default function UserDetailsScreen() {
       <View style={styles.container}>
         <AppBar title="User Details" />
         <Text>User not found</Text>
-        <Navbar />
+        <Navbar userId={''} />
       </View>
     );
   }
@@ -116,19 +126,19 @@ export default function UserDetailsScreen() {
               style={styles.profileImage}
             />
             <View style={styles.greetingTextContainer}>
-            <Text style={{...styles.greeting, fontSize: 14}}>Good Morning, Dr. {userDetails.surname || 'User'}!</Text>
+              <Text style={{...styles.greeting, fontSize: 14}}>Good Morning, {userDetails.firstName || 'User'}</Text>
               <Text style={styles.subGreeting}>You have 2 upcoming appointments and 1 new health alert.</Text>
             </View>
           </View>
         </View>
 
         <View style={styles.sectionContainer}>
-          <Text style={{...styles.sectionTitle, fontSize: 15}}>Profession</Text>
+          <Text style={{...styles.sectionTitle, fontSize: 15}}>Medical Condition</Text>
           <View style={styles.conditionsContainer}>
-            {userDetails.profession ? (
+            {userDetails.medicalHistory ? (
               <View style={styles.conditionItem}>
                 <FontAwesome name="stethoscope" size={24} color="#FF5733" />
-                <Text style={styles.conditionText}>{userDetails.profession}</Text>
+                <Text style={styles.conditionText}>{userDetails.medicalHistory}</Text>
               </View>
             ) : (
               <Text>No profession available</Text>
@@ -137,36 +147,29 @@ export default function UserDetailsScreen() {
         </View>
 
         <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Medical Records</Text>
+          <Text style={styles.sectionTitle}>Medical Services</Text>
           <View style={styles.medicalRecordsContainer}>
-            <MedicalRecordItem
-              title="X-ray"
-              imagePath={require('@/assets/images/xraymachine.png')}
-              date="2023-10-01"
-              type="xray"
+            <MedicalServiceItem
+              title="Book Consultation"
+              imagePath={require('@/assets/images/consult.png')}
             />
-            <MedicalRecordItem
-              title="MRI"
-              imagePath={require('@/assets/images/mrimachine.png')}
-              date="2023-09-25"
-              type="mri"
+            <MedicalServiceItem
+              title="CareSync AI"
+              imagePath={require('@/assets/images/ailogo.png')}
+              onPress={() => router.push(`/CareSyncAIChat?id=${id}`)}
             />
-            <MedicalRecordItem
-              title="Blood Tests"
-              imagePath={require('@/assets/images/BLOODTEST.png')}
-              date="2023-09-15"
-              type="blood"
+            <MedicalServiceItem
+              title="Health Edu-Hub"
+              imagePath={require('@/assets/images/consult.png')}
             />
-            <MedicalRecordItem
-              title="Ultrasound"
-              imagePath={require('@/assets/images/ultra.png')}
-              date="2023-09-20"
-              type="ultrasound"
+            <MedicalServiceItem
+              title="Hospital Search"
+              imagePath={require('@/assets/images/consult.png')}
             />
           </View>
         </View>
       </ScrollView>
-      <Navbar />
+      <Navbar userId={''} />
       <MedicalRecordsModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}

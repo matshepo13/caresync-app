@@ -7,6 +7,7 @@ export default function RootLayout() {
       <Stack.Screen name="(login)" />
       <Stack.Screen name="(authenticated)" />
       <Stack.Screen name="appointments" options={{ headerTitle: 'Appointments' }} />
+      <Stack.Screen name="CareSyncAIChat" options={{ headerTitle: 'CareSync AI' }} />
     </Stack>
   );
 }

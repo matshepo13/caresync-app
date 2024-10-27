@@ -6,7 +6,7 @@ export default function AuthenticatedLayout() {
     <Stack>
       <Stack.Screen name="id-entry" options={{ headerShown: false }} />
       <Stack.Screen 
-        name="user-details/[id]" 
+        name="user-details" 
         options={{ 
           headerTitle: 'Dashboard',
           headerBackTitle: 'Back',

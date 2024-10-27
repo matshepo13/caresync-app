@@ -1,5 +1,5 @@
 import { firestore } from '@/services/firebase';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 
 export async function checkIdInFirestore(idNumber: string): Promise<boolean> {
     const usersRef = collection(firestore, 'PatientList');
@@ -8,17 +8,17 @@ export async function checkIdInFirestore(idNumber: string): Promise<boolean> {
     return !querySnapshot.empty;
   }
 
-export async function getUserDetails(idNumber: string) {
-  console.log('Querying PatientList for ID Number:', idNumber); // Debugging statement
+export async function getUserDetails(id: string) {
+  console.log('Querying PatientList for ID:', id);
   const usersRef = collection(firestore, 'PatientList');
-  const q = query(usersRef, where('idNumber', '==', idNumber));
-  const querySnapshot = await getDocs(q);
+  const userDoc = doc(usersRef, id);
+  const userSnapshot = await getDoc(userDoc);
   
-  if (!querySnapshot.empty) {
-    const userData = querySnapshot.docs[0].data();
-    console.log('Fetched user data:', userData); // Debugging statement
+  if (userSnapshot.exists()) {
+    const userData = userSnapshot.data();
+    console.log('Fetched user data:', userData);
     return userData;
   }
-  console.log('No user found with ID Number:', idNumber); // Debugging statement
+  console.log('No user found with ID:', id);
   return null;
 }
