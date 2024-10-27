@@ -90,7 +90,7 @@ const AppointmentsPage = () => {
               </View>
               <TouchableOpacity 
                 style={localStyles.callButton} 
-                onPress={() => initiateCall(appointment.doctorId)}
+              //  / onPress={() => initiateCall(appointment.doctorId)}
               >
                 <Ionicons name="call" size={24} color="black" />
               </TouchableOpacity>

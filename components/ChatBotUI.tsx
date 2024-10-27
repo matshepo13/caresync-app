@@ -5,10 +5,11 @@ import { getOpenAIResponse } from '@/services/openaiService';
 import ThinkingAnimation from './ThinkingAnimation';
 
 interface Message {
-  id: string;
-  text: string;
-  sender: 'user' | 'bot';
-}
+    id: string;
+    text: string;
+    sender: 'user' | 'bot';
+    isThinking?: boolean;
+  }
 
 interface ChatBotUIProps {
   initialMessage: string;
@@ -94,6 +95,11 @@ const ChatBotUI: React.FC<ChatBotUIProps> = ({ initialMessage, onClose }) => {
             )}
             scrollEnabled={false}
           />
+          {isThinking && (
+            <View style={[styles.messageBubble, styles.botMessage]}>
+              <ThinkingAnimation />
+            </View>
+          )}
         </ScrollView>
         <View style={styles.inputContainer}>
           <TextInput
@@ -106,7 +112,6 @@ const ChatBotUI: React.FC<ChatBotUIProps> = ({ initialMessage, onClose }) => {
             <Ionicons name="send" size={24} color="#40E0D0" />
           </TouchableOpacity>
         </View>
-        {isThinking && <ThinkingAnimation />}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -166,7 +171,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollViewContent: {
-    flexGrow: 1,
+    paddingVertical: 10,
   },
 });
 

@@ -57,11 +57,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: '#F0F8FF',
   },
   text: {
     fontSize: 16,
     marginRight: 10,
+    color: '#000', // Adjust color to match your design
   },
   dotsContainer: {
     flexDirection: 'row',
