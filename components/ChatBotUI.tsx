@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, SafeAreaView, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, SafeAreaView, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getOpenAIResponse } from '@/services/openaiService';
+import ThinkingAnimation from './ThinkingAnimation';
 
 interface Message {
   id: string;
@@ -18,6 +19,7 @@ const ChatBotUI: React.FC<ChatBotUIProps> = ({ initialMessage, onClose }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
   const flatListRef = useRef<FlatList>(null);
+  const [isThinking, setIsThinking] = useState(false);
 
   useEffect(() => {
     if (initialMessage) {
@@ -30,17 +32,22 @@ const ChatBotUI: React.FC<ChatBotUIProps> = ({ initialMessage, onClose }) => {
 
   const handleBotResponse = async (userMessage: string) => {
     try {
+      setIsThinking(true);
       const apiMessages = messages.map(msg => ({
         role: msg.sender === 'user' ? 'user' : 'assistant',
         content: msg.text
       }));
       apiMessages.push({ role: 'user', content: userMessage });
 
-      const botResponse = await getOpenAIResponse(apiMessages);
-      const newBotMessage: Message = { id: Date.now().toString(), text: botResponse, sender: 'bot' };
-      setMessages(prevMessages => [...prevMessages, newBotMessage]);
+      setTimeout(async () => {
+        const botResponse = await getOpenAIResponse(apiMessages);
+        setIsThinking(false);
+        const newBotMessage: Message = { id: Date.now().toString(), text: botResponse, sender: 'bot' };
+        setMessages(prevMessages => [...prevMessages, newBotMessage]);
+      }, 5000);
     } catch (error) {
       console.error('Error getting bot response:', error);
+      setIsThinking(false);
       const errorMessage: Message = { id: Date.now().toString(), text: 'Sorry, I encountered an error. Please try again.', sender: 'bot' };
       setMessages(prevMessages => [...prevMessages, errorMessage]);
     }
@@ -72,19 +79,22 @@ const ChatBotUI: React.FC<ChatBotUIProps> = ({ initialMessage, onClose }) => {
       </View>
       <KeyboardAvoidingView 
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}
+        style={styles.keyboardAvoidingView}
         keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
       >
-        <FlatList
-          ref={flatListRef}
-          data={messages}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={[styles.messageBubble, item.sender === 'user' ? styles.userMessage : styles.botMessage]}>
-              <Text style={styles.messageText}>{item.text}</Text>
-            </View>
-          )}
-        />
+        <ScrollView contentContainerStyle={styles.scrollViewContent}>
+          <FlatList
+            ref={flatListRef}
+            data={messages}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View style={[styles.messageBubble, item.sender === 'user' ? styles.userMessage : styles.botMessage]}>
+                <Text style={styles.messageText}>{item.text}</Text>
+              </View>
+            )}
+            scrollEnabled={false}
+          />
+        </ScrollView>
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
@@ -96,6 +106,7 @@ const ChatBotUI: React.FC<ChatBotUIProps> = ({ initialMessage, onClose }) => {
             <Ionicons name="send" size={24} color="#40E0D0" />
           </TouchableOpacity>
         </View>
+        {isThinking && <ThinkingAnimation />}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -150,6 +161,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     marginRight: 10,
+  },
+  keyboardAvoidingView: {
+    flex: 1,
+  },
+  scrollViewContent: {
+    flexGrow: 1,
   },
 });
 
