@@ -1,45 +1,47 @@
 import React from 'react';
 import { Stack } from 'expo-router';
+import { ConsultationProvider } from '@/app/context/ConsultationContext';
 
 export default function ConsultationLayout() {
   return (
-    <Stack>
-      <Stack.Screen 
-        name="age" 
-        options={{ 
-          headerTitle: 'Age',
-          headerShown: true 
-        }} 
-      />
-      <Stack.Screen 
-        name="gender" 
-        options={{ 
-          headerTitle: 'Gender',
-          headerShown: true 
-        }} 
-      />
-      <Stack.Screen 
-        name="medical-conditions" 
-        options={{ 
-          headerTitle: 'Medical Conditions',
-          headerShown: true 
-        }} 
-      />
-      <Stack.Screen 
-        name="conditions-selector" 
-        options={{ 
+    <ConsultationProvider>
+      <Stack>
+        <Stack.Screen 
+          name="age" 
+          options={{ 
+            headerTitle: 'Age',
+            headerShown: true 
+          }} 
+        />
+        <Stack.Screen 
+          name="gender" 
+          options={{ 
+            headerTitle: 'Gender',
+            headerShown: true 
+          }} 
+        />
+        <Stack.Screen 
+          name="medical-conditions" 
+          options={{ 
             headerTitle: 'Medical Conditions',
             headerShown: true 
-        }} 
+          }} 
         />
         <Stack.Screen 
-        name="feelings" 
-        options={{ 
-            headerTitle: 'How are you feeling?',
-            headerShown: true 
-        }} 
-        />
-        <Stack.Screen 
+          name="conditions-selector" 
+          options={{ 
+              headerTitle: 'Medical Conditions',
+              headerShown: true 
+          }} 
+          />
+          <Stack.Screen 
+          name="feelings" 
+          options={{ 
+              headerTitle: 'How are you feeling?',
+              headerShown: true 
+          }} 
+          />
+          <Stack.Screen 
   name="medications" 
   options={{ 
     headerTitle: 'Medications',
@@ -69,6 +71,15 @@ export default function ConsultationLayout() {
     headerShown: true 
   }} 
 />
-    </Stack>
+
+<Stack.Screen 
+  name="ai-response" 
+  options={{ 
+    headerTitle: 'AI Response',
+    headerShown: true 
+  }} 
+/>
+      </Stack>
+    </ConsultationProvider>
   );
 }

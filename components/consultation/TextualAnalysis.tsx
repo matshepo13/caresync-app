@@ -5,6 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import { router } from 'expo-router';
 import HeaderText from '@/components/consultation/HeaderText';
@@ -24,8 +26,12 @@ export default function TextualAnalysis({ onSubmit, allergies }: TextualAnalysis
   const [showVoiceInput, setShowVoiceInput] = useState(false);
 
   const handleNext = () => {
-    onSubmit(symptoms);
-    router.push('/consultation/next-step');
+    if (symptoms.trim()) {
+      router.push({
+        pathname: '/consultation/ai-response',
+        params: { prompt: symptoms },
+      });
+    }
   };
 
   const handleVoiceRecordingComplete = (text: string) => {
@@ -33,46 +39,48 @@ export default function TextualAnalysis({ onSubmit, allergies }: TextualAnalysis
   };
 
   return (
-    <View style={styles.container}>
-      <HeaderText>Textual AI Health Analysis</HeaderText>
-      
-      {allergies?.hasAllergies && allergies.selectedTypes && (
-        <Text style={styles.subtitle}>
-          Selected allergies: {allergies.selectedTypes.join(', ')}
-        </Text>
-      )}
-      
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.textInput}
-          multiline
-          placeholder="Type your symptoms here..."
-          value={symptoms}
-          onChangeText={setSymptoms}
-          textAlignVertical="top"
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <HeaderText>Textual AI Health Analysis</HeaderText>
+        
+        {allergies?.hasAllergies && allergies.selectedTypes && (
+          <Text style={styles.subtitle}>
+            Selected allergies: {allergies.selectedTypes.join(', ')}
+          </Text>
+        )}
+        
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.textInput}
+            multiline
+            placeholder="Type your symptoms here..."
+            value={symptoms}
+            onChangeText={setSymptoms}
+            textAlignVertical="top"
+          />
+        </View>
+        <TouchableOpacity 
+          style={[styles.continueButton, { marginBottom: 16 }]}
+          onPress={() => setShowVoiceInput(true)}
+        >
+          <FontAwesome name="microphone" size={20} color="#fff" />
+          <Text style={[styles.continueText, { marginLeft: 8 }]}>Use Voice Instead</Text>
+        </TouchableOpacity>
+
+        <VoiceInputScreen
+          visible={showVoiceInput}
+          onClose={() => setShowVoiceInput(false)}
+          onRecordingComplete={handleVoiceRecordingComplete}
         />
+
+        <TouchableOpacity
+          style={styles.continueButton}
+          onPress={handleNext}
+        >
+          <Text style={styles.continueText}>Continue</Text>
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity 
-        style={[styles.continueButton, { marginBottom: 16 }]}
-        onPress={() => setShowVoiceInput(true)}
-      >
-        <FontAwesome name="microphone" size={20} color="#fff" />
-        <Text style={[styles.continueText, { marginLeft: 8 }]}>Use Voice Instead</Text>
-      </TouchableOpacity>
-
-      <VoiceInputScreen
-        visible={showVoiceInput}
-        onClose={() => setShowVoiceInput(false)}
-        onRecordingComplete={handleVoiceRecordingComplete}
-      />
-
-      <TouchableOpacity
-        style={styles.continueButton}
-        onPress={handleNext}
-      >
-        <Text style={styles.continueText}>Continue</Text>
-      </TouchableOpacity>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
