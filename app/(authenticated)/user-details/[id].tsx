@@ -152,6 +152,7 @@ export default function UserDetailsScreen() {
             <MedicalServiceItem
               title="Book Consultation"
               imagePath={require('@/assets/images/consult.png')}
+              onPress={() => router.push(`/BookingAppointment?id=${id}`)}
             />
             <MedicalServiceItem
               title="CareSync AI"
@@ -159,8 +160,9 @@ export default function UserDetailsScreen() {
               onPress={() => router.push(`/CareSyncAIChat?id=${id}`)}
             />
             <MedicalServiceItem
-              title="Health Edu-Hub"
-              imagePath={require('@/assets/images/consult.png')}
+              title="Virtual Consultation"
+              imagePath={require('@/assets/images/vai.png')}
+              onPress={() => router.push(`/VirtualConsultation?id=${id}`)}
             />
             <MedicalServiceItem
               title="Hospital Search"
