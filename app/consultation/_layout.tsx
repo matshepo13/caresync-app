@@ -61,6 +61,14 @@ export default function ConsultationLayout() {
     headerShown: true 
   }} 
 />
+
+<Stack.Screen 
+  name="textual-analysis" 
+  options={{ 
+    headerTitle: 'Textual Analysis',
+    headerShown: true 
+  }} 
+/>
     </Stack>
   );
 }

@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 import HeaderText from '@/components/consultation/HeaderText';
+import NextButton from './NextButton';
+
 
 interface AllergyInputProps {
   onSubmit: (hasAllergies: boolean, selectedTypes?: string[]) => void;
@@ -15,7 +17,23 @@ interface AllergyInputProps {
 
 export default function AllergyInput({ onSubmit }: AllergyInputProps) {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const allergyTypes = ['Nuts', 'Cheese', 'Bread', 'Pollen'];
+  const allergyTypes = [
+    'Nuts',
+    'Cheese', 
+    'Bread',
+    'Pollen',
+    'Eggs',
+    'Fish',
+    'Soy',
+    'Wheat',
+    'Milk',
+    'Tree Nuts',
+    'Peanuts',
+    'Latex',
+   
+    
+    'Mold'
+  ];
 
   const handleTypeSelect = (type: string) => {
     if (selectedTypes.includes(type)) {
@@ -25,18 +43,20 @@ export default function AllergyInput({ onSubmit }: AllergyInputProps) {
     }
   };
 
-  const handleContinue = () => {
-    if (selectedTypes.length > 0) {
-      onSubmit(true, selectedTypes);
-      router.push('/consultation/next-step');
-    }
+  const handleNext = () => {
+    // Remove the condition checking for selectedTypes.length
+    onSubmit(selectedTypes.length > 0, selectedTypes);
+    
+    router.push({
+      pathname: '/consultation/textual-analysis',
+      params: {
+        hasAllergies: selectedTypes.length > 0 ? 'true' : 'false',
+        selectedTypes: selectedTypes.join(',')
+      }
+    });
   };
 
-  const handleNoAllergy = () => {
-    onSubmit(false);
-    router.push('/consultation/next-step');
-  };
-
+  
   return (
     <View style={styles.container}>
       <HeaderText>Do you have any ongoing allergy?</HeaderText>
@@ -70,20 +90,10 @@ export default function AllergyInput({ onSubmit }: AllergyInputProps) {
       </View>
 
       <View style={styles.bottomContainer}>
-        <TouchableOpacity
-          style={styles.continueButton}
-          onPress={handleContinue}
-          disabled={selectedTypes.length === 0}
-        >
-          <Text style={styles.continueText}>Continue</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.noAllergyButton}
-          onPress={handleNoAllergy}
-        >
-          <Text style={styles.noAllergyText}>No, I don't</Text>
-        </TouchableOpacity>
+        <NextButton
+          onPress={handleNext}
+          text="Continue"
+        />
       </View>
     </View>
   );
@@ -113,6 +123,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
     borderRadius: 12,
     width: '100%',
+    height: 200, // Added height
   },
   allergyType: {
     paddingHorizontal: 16,

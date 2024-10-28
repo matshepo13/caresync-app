@@ -44,6 +44,11 @@ export default function MedicationSelector({ onSubmit }: MedicationSelectorProps
     }
   };
 
+  const handleContinue = () => {
+    onSubmit(selectedMedications);
+    router.push('/consultation/allergies');
+  };
+
   return (
     <View style={styles.container}>
       <HeaderText>Then please specify your medications!</HeaderText>
@@ -107,8 +112,8 @@ export default function MedicationSelector({ onSubmit }: MedicationSelectorProps
       )}
 
       <NextButton 
-        onPress={() => onSubmit(selectedMedications)}
-        title="Continue "
+        onPress={handleContinue}
+        text="Continue"
       />
     </View>
   );
