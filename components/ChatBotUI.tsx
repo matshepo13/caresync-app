@@ -73,7 +73,7 @@ const ChatBotUI: React.FC<ChatBotUIProps> = ({ initialMessage, onClose }) => {
         <TouchableOpacity onPress={onClose}>
           <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>CareSync AI</Text>
+        <Text style={styles.headerTitle}>Phila AI</Text>
         <TouchableOpacity>
           <Ionicons name="search" size={24} color="black" />
         </TouchableOpacity>

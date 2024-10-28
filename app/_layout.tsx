@@ -9,7 +9,7 @@ export default function RootLayout() {
       <Stack.Screen name="(login)" />
       <Stack.Screen name="(authenticated)" />
       <Stack.Screen name="appointments" options={{ headerTitle: 'Appointments' }} />
-      <Stack.Screen name="CareSyncAIChat" options={{ headerTitle: 'CareSync AI' }} />
+      <Stack.Screen name="CareSyncAIChat" options={{ headerTitle: 'Phila AI' }} />
       <Stack.Screen name="pages/BookAppointment" options={{ headerTitle: 'Book Appointment' }} />
       <Stack.Screen name="Age" options={{ headerTitle: 'Age' }} />
       <Stack.Screen name="Gender" options={{ headerTitle: 'Gender' }} />

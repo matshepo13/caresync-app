@@ -95,7 +95,7 @@ export default function AIResponseScreen() {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>AI Doctor's Response</Text>
+      <Text style={styles.title}>Virtual Doctor's Response</Text>
       
       {loading ? (
         <ActivityIndicator size="large" color="#318B76" />

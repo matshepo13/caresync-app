@@ -26,7 +26,7 @@ const ThinkingAnimation: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>CareSync is thinking</Text>
+      <Text style={styles.text}>Phila is thinking</Text>
       <View style={styles.dotsContainer}>
         {dots.map((dot, index) => (
           <Animated.View

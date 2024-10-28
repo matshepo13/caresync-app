@@ -155,7 +155,7 @@ export default function UserDetailsScreen() {
               onPress={() => router.push(`/BookingAppointment?id=${id}`)}
             />
             <MedicalServiceItem
-              title="CareSync AI"
+              title="Phila AI"
               imagePath={require('@/assets/images/ailogo.png')}
               onPress={() => router.push(`/CareSyncAIChat?id=${id}`)}
             />
