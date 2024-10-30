@@ -107,7 +107,7 @@ const BookAppointment = () => {
               setLocation(data.description);
             }}
             query={{
-              key: 'AIzaSyB0i73Z77BGCtSfCLINyeCX6Hs6dH641wk',
+              key: '',
               language: 'en',
             }}
             styles={{
