@@ -126,7 +126,7 @@ export default function UserDetailsScreen() {
               style={styles.profileImage}
             />
             <View style={styles.greetingTextContainer}>
-              <Text style={{...styles.greeting, fontSize: 14}}>Good Morning, {userDetails.firstName || 'User'}</Text>
+              <Text style={{...styles.greeting, fontSize: 14}}>Good Morning, {userDetails.firstName || 'Matshepo'}</Text>
               <Text style={styles.subGreeting}>You have 2 upcoming appointments and 1 new health alert.</Text>
             </View>
           </View>
@@ -141,7 +141,7 @@ export default function UserDetailsScreen() {
                 <Text style={styles.conditionText}>{userDetails.medicalHistory}</Text>
               </View>
             ) : (
-              <Text>No profession available</Text>
+              <Text>Rheumatoid Arthritis</Text>
             )}
           </View>
         </View>
@@ -152,7 +152,7 @@ export default function UserDetailsScreen() {
             <MedicalServiceItem
               title="Book Consultation"
               imagePath={require('@/assets/images/consult.png')}
-              onPress={() => router.push(`/BookingAppointment?id=${id}`)}
+              // onPress={() => router.push(`/BookingAppointment?id=${id}`)}
             />
             <MedicalServiceItem
               title="Phila AI"
