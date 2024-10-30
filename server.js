@@ -10,11 +10,11 @@ app.use(cors());
 
 app.get('/api/nearby-clinics', async (req, res) => {
   const { location } = req.query;
-  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+  const apiKey = process.env.GOOGLE;
 
   try {
     const response = await axios.get(
-      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location}&radius=5000&type=hospital&key=${apiKey}`
+      
     );
     res.json(response.data);
   } catch (error) {
